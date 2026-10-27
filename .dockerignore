@@ -1,0 +1,18 @@
+# Contexto de build: el `Dockerfile` solo copia `pyproject.toml`, `README.md`,
+# `src/` y `tests/`. Se excluye el resto para no enviar al daemon de Docker
+# directorios de herramientas ni artefactos de compilación.
+.git
+.gitignore
+.opencode
+.artifacts
+.pytest_cache
+__pycache__
+*.py[cod]
+.venv
+venv
+build
+dist
+*.egg-info
+Dockerfile
+docker-compose.yml
+run.sh

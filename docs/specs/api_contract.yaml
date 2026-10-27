@@ -1,0 +1,11 @@
+```yaml
+openapi: 3.1.0
+info:
+  title: loan
+  version: 0.1.0
+  description: >-
+    There are no HTTP endpoints. The public API surface of the library is the
+    set of module-level functions in `src/loan.py` (`monthly_rate`,
+    `monthly_payment`, `amortization_schedule`).
+paths: {}
+```

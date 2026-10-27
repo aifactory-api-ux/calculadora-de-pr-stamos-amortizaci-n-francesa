@@ -1,0 +1,29 @@
+# Ejecución opcional de la suite de pruebas en un contenedor limpio.
+# La librería es un módulo de Python sin servidor: este compose solo levanta
+# la suite de pytest, sin puertos, sin secretos y sin variables de entorno de
+# negocio.
+#
+# El código de la aplicación se hornea en la imagen (ver `Dockerfile`) y NO se
+# monta desde el host: un volumen enlazado del tipo `.:/app` taparía el código
+# recién compilado y el contenedor ejecutaría código obsoleto del host.
+# Lo único que se persiste es el volumen de datos `data` (caché de paquetes en
+# `/data`); la librería no usa base de datos ni guarda estado de negocio.
+
+services:
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: loan-lib-tests:0.1.0
+    working_dir: /app
+    environment:
+      # Toda la configuración apunta al volumen de datos, no al código.
+      PIP_CACHE_DIR: /data/pip-cache
+    volumes:
+      - data:/data
+    # Comando por defecto de la imagen: instala el paquete en modo editable
+    # desde `/app` y ejecuta la suite completa.
+    command: ["sh", "-c", "pip install -e '.[dev]' && python -m pytest"]
+
+volumes:
+  data:
